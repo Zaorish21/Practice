@@ -1,0 +1,370 @@
+﻿<Window x:Class="TFS_help.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TFS_help"
+     
+        Title="TFS Helper" Height="600" Width="1000"
+            MinHeight="600" MinWidth="1000" FontFamily="Haettenschweiler" FontSize="16">
+    <Window.Resources>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#2b88d8"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#2b88d8"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#F4F4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#F4F4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#c8c8c8"/>
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox" x:Key="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Helvetica Neue"/>
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Background" Value="#f4f4f4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="MinWidth" Value="50"/>
+            <Setter Property="MaxWidth" Value="200"/>
+            <Style.Triggers>
+                <Trigger Property="TextBox.IsEnabled" Value="false">
+                    <Setter Property="Background" Value="#f4f4f4"/>
+                    <Setter Property="BorderBrush" Value="#f4f4f4"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Helvetica Neue"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="80"/>
+        </Style>
+
+        <Style x:Key="ComboBox">
+            <Setter Property="Control.VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.FontFamily" Value="Helvetica Neue"/>
+            <Setter Property="Control.FontSize" Value="14"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="WrapTextBlock">
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" x:Key="WrapTextBox">
+            <Setter Property="TextBox.TextWrapping" Value="Wrap"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+        </Style>
+
+        <Style x:Key="RowDataGrid" TargetType="{x:Type DataGridRow}">
+            <Setter Property="Control.FontFamily" Value="Helvetica Neue"/>
+            <Setter Property="Control.FontSize" Value="12"/>
+            <Setter Property="Control.Background" Value="White"/>
+            <Setter Property="Control.BorderBrush" Value="#f4f4f4"/>
+            <Setter Property="Control.BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="DataGridRow.IsSelected" Value="True">
+                    <Setter Property="Background" Value="#f4f4f4" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="#f4f4f4"/>
+                </Trigger>
+                <Trigger Property="DataGridRow.IsFocused" Value="True">
+                    <Setter Property="Background" Value="#f4f4f4" />
+                    <Setter Property="BorderBrush" Value="#f4f4f4"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ColumnHeadDataGrid">
+            <Setter Property="Control.FontFamily" Value="Helvetica Neue"/>
+            <Setter Property="Control.FontSize" Value="14"/>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Control.Background" Value="#0078d7"/>
+            <Setter Property="Control.BorderBrush" Value="#0078d7"/>
+            <Setter Property="Control.BorderThickness" Value="1"/>
+            <Setter Property="Control.Height" Value="25"/>
+            <Setter Property="Control.Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="DataGrid.IsEnabled" Value="false">
+                    <Setter Property="Control.FontFamily" Value="Helvetica Neue"/>
+                    <Setter Property="Control.FontSize" Value="14"/>
+                    <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Control.Background" Value="#f4f4f4"/>
+                    <Setter Property="Control.BorderBrush" Value="#f4f4f4"/>
+                    <Setter Property="Control.BorderThickness" Value="1"/>
+                    <Setter Property="Control.Height" Value="25"/>
+                    <Setter Property="Control.Foreground" Value="#c8c8c8"/>
+                    <Setter Property="TextBlock.Width" Value="auto"/>
+                    <Setter Property="Control.MinWidth" Value="80"/>
+                    <Setter Property="TextBlock.Height" Value="25"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGridCell}" >
+            <Setter Property="Control.MinWidth" Value="80"/>
+            <Setter Property="Control.Width" Value="auto"/>
+            <Setter Property="Control.Height" Value="auto"/>
+            <Setter Property="Control.MinHeight" Value="20"/>
+            <Setter Property="Control.MaxHeight" Value="40"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                    <Setter Property="Background" Value="#f4f4f4" />
+                    <Setter Property="BorderBrush" Value="#f4f4f4"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                </Trigger>
+                <Trigger Property="DataGridCell.IsFocused" Value="True">
+                    <Setter Property="Background" Value="#f4f4f4" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="BorderBrush" Value="#0078d7"/>
+            <Style.Triggers>
+                <Trigger Property="DataGrid.IsEnabled" Value="false">
+                    <Setter Property="BorderBrush" Value="#f4f4f4"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="One" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Name="GridMain" Background="White">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal"  VerticalAlignment="Top" 
+                         HorizontalAlignment="Left" Margin="10,10,5,0" 
+                            Visibility="Visible" Name="StackPanelType">
+
+                        <TextBlock Name="TextBlockType" Foreground="#c8c8c8">Children items Type</TextBlock>
+
+                        <ComboBox  Name="ComboBoxType" 
+                                   TabIndex="2" 
+                                   Width="200" Height="25" 
+                                   BorderThickness="0" 
+                                   Style="{StaticResource ComboBox}" 
+                                   IsEnabled="False">
+
+                        </ComboBox>
+                    </StackPanel>
+
+                    <DataGrid Name="DataGrid" Margin="20" 
+                              MinHeight="300"
+                              Height="auto"
+                              FontSize="14"
+                              TabIndex="3"
+                              IsEnabled="False"
+                              AutoGenerateColumns="False" 
+                              HeadersVisibility="Column" 
+                              Background="White"
+                              BorderThickness="1"
+                              HorizontalGridLinesBrush="#c8c8c8"
+                              VerticalGridLinesBrush="#c8c8c8"
+                              GridLinesVisibility="None"
+                              RowStyle="{StaticResource RowDataGrid}"
+                              ColumnHeaderStyle="{StaticResource ColumnHeadDataGrid}">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                            <DataGridComboBoxColumn x:Name="AreaColumn"  
+                                                    Header="Area" 
+                                                    SelectedItemBinding="{Binding Area}"
+                                                    TextBlock.TextAlignment="Center"/>
+                            <DataGridComboBoxColumn x:Name="IterationColumn" 
+                                                    Header="Iteration" 
+                                                    SelectedItemBinding="{Binding Iteration}"
+                                                     TextBlock.TextAlignment="Center"/>
+                            <DataGridComboBoxColumn x:Name="AssignedToColumn" 
+                                                    Header="Assigned to" 
+                                                    SelectedItemBinding="{Binding AssignedTo}"
+                                                    TextBlock.TextAlignment="Center"/>
+                            <DataGridTextColumn x:Name="DescriptionColumn"
+                                                Header="Description"
+                                                Binding="{Binding Description}"
+                                                Width="100"
+                                                ElementStyle="{StaticResource WrapTextBlock}"
+                                                EditingElementStyle="{StaticResource WrapTextBox}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Button Name="ButtonAdd" Width="80" Height="25" Background="#0078d7" Style="{StaticResource ButtonStyle}"
+                            Foreground="White" Content="Add" FontFamily="Helvetica Neue" FontSize="14"
+                             BorderThickness="0" Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                IsEnabled="False"
+                            Click="ButtonAdd_Click"/>
+
+                </StackPanel>
+
+            </Grid>
+
+
+
+        </Grid>
+
+        <Grid Grid.Row="0" Background="#0078d7">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Name="ButtonHelp"  Width="60" 
+                    Content="Help" FontFamily="Helvetica Neue" FontSize="14" Style="{StaticResource ButtonStyle}"
+                    Foreground="White" Background="#0078d7" BorderThickness="0"
+                        Click="ButtonHelp_Click"/>
+
+                <Button Name="ButtonConnect"  Width="75" Style="{StaticResource ButtonStyle}"
+                    Content="Connect" FontFamily="Helvetica Neue" FontSize="14"
+                    Foreground="White" Background="#0078d7" BorderThickness="0"
+                    Click="ButtonConnect_Click"/>
+            </StackPanel>
+
+            <TextBlock Name="ConnectionStatus" Text="Offline" 
+                       Foreground="White" HorizontalAlignment="Right" FontSize="12" 
+                       TextAlignment="Right" Margin="0,0,20,0"></TextBlock>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#f4f4f4f4">
+            <TextBlock Margin="15,5,0,0" FontFamily="Helvetica Neue"
+                       FontSize="11" Foreground="Black"
+                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                       Name="ParentTypeName" Visibility="Collapsed">TASK
+            </TextBlock>
+
+            <StackPanel Orientation="Horizontal" >
+
+                <Grid Name="TypesColor" Background="Yellow" Width="10" Visibility="Collapsed"/>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,20,0">
+                    <TextBlock FontSize="16" Foreground="#c8c8c8"
+                               Name="TextBlockID" Width="25">ID</TextBlock>
+                    <TextBox Name="TextBoxID" Width="50"  
+                            Background="White" Height="30" BorderThickness="1"
+                             FontSize="16" FontFamily="Helvetica Neue"
+                             VerticalContentAlignment="Center" MaxLength="5"
+                             KeyDown="TextBoxID_KeyDown"
+                             Focusable="True" TabIndex="1"
+                             IsEnabled="False"
+                             Style="{StaticResource TextBox}"></TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Name="ParentInfo" Visibility="Hidden">
+                    <StackPanel VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,20,0" >
+                            <TextBlock>Title</TextBlock>
+                            <TextBox Name="TextBoxTitle" Style="{StaticResource TextBox}"></TextBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,8,20,0">
+                            <TextBlock>Assigned to</TextBlock>
+                            <TextBox Name="TextBoxAssignedTo" Style="{StaticResource TextBox}"></TextBox>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <StackPanel VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                            <TextBlock >Iteration</TextBlock>
+                            <TextBox Name="TextBoxIteration" Style="{StaticResource TextBox}"
+                                     Width="auto" IsEnabled="True"></TextBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,8,20,0">
+                            <TextBlock>Area</TextBlock>
+                            <TextBox Name="TextBoxArea" Style="{StaticResource TextBox}"
+                                     Width="auto" IsEnabled="True"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock>Description</TextBlock>
+                        <TextBox Name="TextBoxDescription" Height="60" Margin="0,0,20,0" 
+                                     IsEnabled="True" Style="{StaticResource TextBox}"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>
