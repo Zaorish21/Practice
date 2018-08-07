@@ -219,7 +219,8 @@
                          HorizontalAlignment="Left" Margin="10,10,5,0" 
                             Visibility="Visible" Name="StackPanelType">
 
-                        <TextBlock Name="TextBlockType" Foreground="#c8c8c8">Children items Type</TextBlock>
+                        <TextBlock Name="TextBlockType" Foreground="#c8c8c8"
+                                   Width="125">Children items Type</TextBlock>
 
                         <ComboBox  Name="ComboBoxType" 
                                    TabIndex="2" 
@@ -359,7 +360,8 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock>Description</TextBlock>
                         <TextBox Name="TextBoxDescription" Height="60" Margin="0,0,20,0" 
-                                     IsEnabled="True" Style="{StaticResource TextBox}"></TextBox>
+                                     IsEnabled="True" Style="{StaticResource TextBox}"
+                                 TextAlignment="Left"></TextBox>
                     </StackPanel>
                 </StackPanel>
 

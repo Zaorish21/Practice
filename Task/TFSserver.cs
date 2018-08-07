@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.TeamFoundation.Client;
-using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
@@ -79,12 +75,7 @@ namespace TFS_help
 
         public WorkItem FindWorkItem(int id)
         {
-            var temp = this.WorkItemStore.GetWorkItem(id);
-            if (temp != null)
-            {
-                return temp;
-            }
-            return null;
+            return this.WorkItemStore.GetWorkItem(id);
         }
 
         public bool AddWorkItems(out string outMessage, WorkItem ParentWorkItem, List<WorkItemDefination> workItemsList, string WorkItemType )
@@ -128,17 +119,21 @@ namespace TFS_help
                 ReadIdentityOptions.ExtendedProperties);
 
             List<string> memebersIds = new List<string>();
-            foreach (var member in group.Members) memebersIds.Add(member.Identifier);
+            foreach (IdentityDescriptor member in group.Members)
+            {
+                memebersIds.Add(member.Identifier);
+            }
 
-            var _members = ims.ReadIdentities(
+            TeamFoundationIdentity[][] _members = ims.ReadIdentities(
                 IdentitySearchFactor.Identifier,
                 memebersIds.ToArray(),
                 MembershipQuery.Expanded,
                 ReadIdentityOptions.ExtendedProperties);
 
             foreach (TeamFoundationIdentity[] member in _members)
+            {
                 if (!member[0].IsContainer) listUsers.Add(member[0].DisplayName);
-
+            }
             return listUsers;
         }
     }

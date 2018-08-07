@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-using Microsoft.TeamFoundation.Common;
-using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
 
 namespace TFS_help
@@ -118,6 +108,7 @@ namespace TFS_help
                         ComboBoxType.IsEnabled = true;
                         TextBlockType.IsEnabled = true;
                         ButtonAdd.IsEnabled = true;
+                        TextBlockType.Foreground = Brushes.Black;
                     }
                     else
                     {
@@ -179,7 +170,7 @@ namespace TFS_help
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            string message = "";
+            string message = string.Empty;
             bool result = module.AddWorkItems(out message, parentWorkItem, workItems, ComboBoxType.Text);
             if (result)
             {
